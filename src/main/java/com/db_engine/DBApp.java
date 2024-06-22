@@ -40,9 +40,9 @@ public class DBApp {
 
 	}
 
-	
 	/**
-	 * The `init()` function initializes a `Metadata` object within a try-catch block to handle
+	 * The `init()` function initializes a `Metadata` object within a try-catch
+	 * block to handle
 	 * `DBAppException`.
 	 */
 	public void init() {
@@ -207,18 +207,24 @@ public class DBApp {
 		}
 	}
 
-	
 	/**
-	 * The `insertIntoTable` function inserts a new tuple into a table, handling clustering key, column
+	 * The `insertIntoTable` function inserts a new tuple into a table, handling
+	 * clustering key, column
 	 * existence, data type, indexing, and overflow scenarios.
 	 * 
-	 * @param strTableName The `strTableName` parameter in the `insertIntoTable` method represents the
-	 * name of the table into which you want to insert a new tuple. It is a `String` variable that should
-	 * contain the name of the target table where the insertion will take place.
-	 * @param htblColNameValue The `htblColNameValue` parameter is a Hashtable that contains the column
-	 * names as keys and their corresponding values as values. This Hashtable represents the data that you
-	 * want to insert into the specified table. Each key in the Hashtable is a column name in the table,
-	 * and the corresponding value is the
+	 * @param strTableName     The `strTableName` parameter in the `insertIntoTable`
+	 *                         method represents the
+	 *                         name of the table into which you want to insert a new
+	 *                         tuple. It is a `String` variable that should
+	 *                         contain the name of the target table where the
+	 *                         insertion will take place.
+	 * @param htblColNameValue The `htblColNameValue` parameter is a Hashtable that
+	 *                         contains the column
+	 *                         names as keys and their corresponding values as
+	 *                         values. This Hashtable represents the data that you
+	 *                         want to insert into the specified table. Each key in
+	 *                         the Hashtable is a column name in the table,
+	 *                         and the corresponding value is the
 	 */
 	public void insertIntoTable(String strTableName,
 			Hashtable<String, Object> htblColNameValue) throws DBAppException {
@@ -365,7 +371,7 @@ public class DBApp {
 					tblTable.setMin(pgInsertPage.getPageName(),
 							(Comparable) pgInsertPage.getTuples().get(0).getColumnValue(strClustKeyName));
 					tblTable.setMax(pgLastPage.getPageName(),
-							(Comparable) pgInsertPage.getTuples().get(pgInsertPage.getSize()-1)
+							(Comparable) pgInsertPage.getTuples().get(pgInsertPage.getSize() - 1)
 									.getColumnValue(strClustKeyName));
 					if (pgInsertPage.getSize() > intMaxSize) {
 						handleInsertOverflow(tblTable, pgInsertPage, intMaxSize, strClustKeyName, hsIndexedColumns,
@@ -382,7 +388,6 @@ public class DBApp {
 						htblColNameValue.get(strClustKeyName)); // binary search to find the correct index to insert in
 																// page
 
-				
 				Tuple tuplecheckTuple = pgInsertPage.getTuple(index); // Tuple that i check clust key duplication with
 
 				// make sure new clustering key is not a duplicate
@@ -453,27 +458,51 @@ public class DBApp {
 	}
 
 	/**
-	 * The `handleInsertOverflow` function manages overflow during tuple insertion in a table by
+	 * The `handleInsertOverflow` function manages overflow during tuple insertion
+	 * in a table by
 	 * redistributing tuples across pages and adjusting indices if necessary.
 	 * 
-	 * @param tblTable `tblTable` is an object representing a table in a database.
-	 * @param pgFirstOverflowPage The `pgFirstOverflowPage` parameter in the `handleInsertOverflow` method
-	 * represents the first page that caused an overflow when inserting a new tuple into a table. This
-	 * page is where the overflow occurred, and the method handles redistributing the tuples to other
-	 * pages to resolve the overflow situation.
-	 * @param intMaxRowsPerPage The `intMaxRowsPerPage` parameter represents the maximum number of rows
-	 * allowed per page in a table before overflow occurs. This value is used to determine when a page
-	 * needs to be split during an insert operation to maintain the page size limit.
-	 * @param strClustKeyName The parameter `strClustKeyName` represents the name of the clustering key
-	 * column in the table. It is used to identify and manipulate the clustering key values within the
-	 * tuples during the overflow handling process in the `handleInsertOverflow` method.
-	 * @param hsIndexedCols The `hsIndexedCols` parameter is a `HashSet` that contains the names of
-	 * columns that are indexed in the table. It is used to determine which columns have associated B+
-	 * trees that need to be updated when handling an insert overflow situation.
+	 * @param tblTable                `tblTable` is an object representing a table
+	 *                                in a database.
+	 * @param pgFirstOverflowPage     The `pgFirstOverflowPage` parameter in the
+	 *                                `handleInsertOverflow` method
+	 *                                represents the first page that caused an
+	 *                                overflow when inserting a new tuple into a
+	 *                                table. This
+	 *                                page is where the overflow occurred, and the
+	 *                                method handles redistributing the tuples to
+	 *                                other
+	 *                                pages to resolve the overflow situation.
+	 * @param intMaxRowsPerPage       The `intMaxRowsPerPage` parameter represents
+	 *                                the maximum number of rows
+	 *                                allowed per page in a table before overflow
+	 *                                occurs. This value is used to determine when a
+	 *                                page
+	 *                                needs to be split during an insert operation
+	 *                                to maintain the page size limit.
+	 * @param strClustKeyName         The parameter `strClustKeyName` represents the
+	 *                                name of the clustering key
+	 *                                column in the table. It is used to identify
+	 *                                and manipulate the clustering key values
+	 *                                within the
+	 *                                tuples during the overflow handling process in
+	 *                                the `handleInsertOverflow` method.
+	 * @param hsIndexedCols           The `hsIndexedCols` parameter is a `HashSet`
+	 *                                that contains the names of
+	 *                                columns that are indexed in the table. It is
+	 *                                used to determine which columns have
+	 *                                associated B+
+	 *                                trees that need to be updated when handling an
+	 *                                insert overflow situation.
 	 * @param tupleNewTupleFromInsert The `tupleNewTupleFromInsert` parameter in the
-	 * `handleInsertOverflow` method represents the new tuple that needs to be inserted into the table.
-	 * This tuple is generated during an insert operation and is the tuple that caused the overflow in the
-	 * first place. It contains the data values that need to be
+	 *                                `handleInsertOverflow` method represents the
+	 *                                new tuple that needs to be inserted into the
+	 *                                table.
+	 *                                This tuple is generated during an insert
+	 *                                operation and is the tuple that caused the
+	 *                                overflow in the
+	 *                                first place. It contains the data values that
+	 *                                need to be
 	 */
 	public void handleInsertOverflow(Table tblTable, Page pgFirstOverflowPage, int intMaxRowsPerPage,
 			String strClustKeyName, HashSet hsIndexedCols, Tuple tupleNewTupleFromInsert)
@@ -629,21 +658,32 @@ public class DBApp {
 
 	}
 
-	
 	/**
-	 * The `updateTable` function in Java updates a record in a table by validating input values, handling
+	 * The `updateTable` function in Java updates a record in a table by validating
+	 * input values, handling
 	 * data types, and updating corresponding indexes.
 	 * 
-	 * @param strTableName The `strTableName` parameter represents the name of the table that you want to
-	 * update. It is a String value that should match the name of an existing table in your database.
-	 * @param strClusteringKeyValue The `strClusteringKeyValue` parameter in the `updateTable` method
-	 * represents the value of the clustering key that is used to identify the specific tuple to update in
-	 * the table. This value is used to locate the tuple within the table based on the clustering key
-	 * column.
-	 * @param htblColNameValue The `htblColNameValue` parameter is a Hashtable that contains the column
-	 * names as keys and the corresponding values to be updated in the table. Each key represents a column
-	 * name, and the associated value is the new value that should replace the existing value in that
-	 * column for the specified row.
+	 * @param strTableName          The `strTableName` parameter represents the name
+	 *                              of the table that you want to
+	 *                              update. It is a String value that should match
+	 *                              the name of an existing table in your database.
+	 * @param strClusteringKeyValue The `strClusteringKeyValue` parameter in the
+	 *                              `updateTable` method
+	 *                              represents the value of the clustering key that
+	 *                              is used to identify the specific tuple to update
+	 *                              in
+	 *                              the table. This value is used to locate the
+	 *                              tuple within the table based on the clustering
+	 *                              key
+	 *                              column.
+	 * @param htblColNameValue      The `htblColNameValue` parameter is a Hashtable
+	 *                              that contains the column
+	 *                              names as keys and the corresponding values to be
+	 *                              updated in the table. Each key represents a
+	 *                              column
+	 *                              name, and the associated value is the new value
+	 *                              that should replace the existing value in that
+	 *                              column for the specified row.
 	 */
 	public void updateTable(String strTableName, String strClusteringKeyValue,
 			Hashtable<String, Object> htblColNameValue) throws DBAppException {
@@ -798,21 +838,18 @@ public class DBApp {
 	 */
 	private void deleteWithClusteringKey(String strTableName, String strClusteringKey,
 			Hashtable<String, Object> htblColNameValue, Table table) throws DBAppException {
-		
+
 		String strClusteringKeyColName = metadata.getClusteringkey(strTableName);
 
 		Object objClusteringKeyValue = htblColNameValue.get(strClusteringKey);
 		Page pagePage = Page.getPageByClusteringKey(strTableName, objClusteringKeyValue, table);
-		
-		
+
 		// if the page is null, then the tuple does not exist
 		if (pagePage == null) {
 			return;
 		}
 
 		int intTupleIndex = pagePage.searchTuplesByClusteringKey(strClusteringKey, objClusteringKeyValue);
-
-		
 
 		if (intTupleIndex < 0) {
 			return;
@@ -826,7 +863,7 @@ public class DBApp {
 		pagePage.deleteTupleWithIndex(intTupleIndex);
 		String strPageName = pagePage.getPageName();
 		if (pagePage.getSize() == 0) {
-			
+
 			Page.deletePage("tables/" + strTableName + "/" + strPageName + ".class");
 
 			table.removeMin(strPageName);
@@ -858,7 +895,6 @@ public class DBApp {
 				bptTree.remove((Comparable) tupleTuple.getColumnValue(col), pair);
 				bptTree.serialize("tables/" + strTableName + "/" + strIndexName + ".class");
 
-				
 			}
 		}
 
@@ -1184,16 +1220,20 @@ public class DBApp {
 		return htblIntersection;
 	}
 
-	
 	/**
-	 * The `deleteFromTable` function in Java deletes records from a table based on specified column
+	 * The `deleteFromTable` function in Java deletes records from a table based on
+	 * specified column
 	 * values after performing necessary checks.
 	 * 
-	 * @param strTableName The `strTableName` parameter is a `String` that represents the name of the
-	 * table from which you want to delete a record.
-	 * @param htblColNameValue The `htblColNameValue` parameter is a Hashtable that contains the column
-	 * names as keys and the corresponding values to be deleted as values. This method is used to delete
-	 * records from a table based on the specified column values.
+	 * @param strTableName     The `strTableName` parameter is a `String` that
+	 *                         represents the name of the
+	 *                         table from which you want to delete a record.
+	 * @param htblColNameValue The `htblColNameValue` parameter is a Hashtable that
+	 *                         contains the column
+	 *                         names as keys and the corresponding values to be
+	 *                         deleted as values. This method is used to delete
+	 *                         records from a table based on the specified column
+	 *                         values.
 	 */
 	public void deleteFromTable(String strTableName,
 			Hashtable<String, Object> htblColNameValue) throws DBAppException {
@@ -1231,17 +1271,26 @@ public class DBApp {
 	}
 
 	/**
-	 * The `selectFromTable` function in Java processes SQL terms and operators to query a table and
+	 * The `selectFromTable` function in Java processes SQL terms and operators to
+	 * query a table and
 	 * return an iterator of the selected tuples.
 	 * 
-	 * @param arrSQLTerms The `arrSQLTerms` parameter is an array of SQLTerm objects, which represent
-	 * individual conditions to be applied in the query. Each SQLTerm object contains information about a
-	 * specific condition, such as the table name, column name, operator, and value to compare against.
-	 * @param strarrOperators The `strarrOperators` parameter is an array of strings that represent the
-	 * logical operators to be used between the SQL terms in the query. These operators can be "AND",
-	 * "OR", or "XOR" and are used to combine multiple SQL terms in the query.
-	 * @return An `Iterator` is being returned, which allows iterating over a collection of elements, in
-	 * this case, tuples retrieved from the database based on the provided SQL terms and operators.
+	 * @param arrSQLTerms     The `arrSQLTerms` parameter is an array of SQLTerm
+	 *                        objects, which represent
+	 *                        individual conditions to be applied in the query. Each
+	 *                        SQLTerm object contains information about a
+	 *                        specific condition, such as the table name, column
+	 *                        name, operator, and value to compare against.
+	 * @param strarrOperators The `strarrOperators` parameter is an array of strings
+	 *                        that represent the
+	 *                        logical operators to be used between the SQL terms in
+	 *                        the query. These operators can be "AND",
+	 *                        "OR", or "XOR" and are used to combine multiple SQL
+	 *                        terms in the query.
+	 * @return An `Iterator` is being returned, which allows iterating over a
+	 *         collection of elements, in
+	 *         this case, tuples retrieved from the database based on the provided
+	 *         SQL terms and operators.
 	 */
 	public Iterator selectFromTable(SQLTerm[] arrSQLTerms,
 			String[] strarrOperators) throws DBAppException {
@@ -1256,19 +1305,21 @@ public class DBApp {
 			if (arrSQLTerms.length != strarrOperators.length + 1) {
 				throw new DBAppException("something wrong in the input");
 			}
-			if(arrSQLTerms.length==1){
-				if(arrSQLTerms[0]._strTableName!=null&&arrSQLTerms[0]._strColumnName==null&&arrSQLTerms[0]._strOperator==null&&arrSQLTerms[0]._objValue==null){
-					if(metadata.checkTableName(arrSQLTerms[0]._strTableName)){
-						Table table = Table.deserialize("tables/" + arrSQLTerms[0]._strTableName + "/" + arrSQLTerms[0]._strTableName + ".class");
-						Vector<String>pages=  table.getPageVector();
-						HashSet<Tuple>hstup= new HashSet<>();
-						for(String page:pages){
-							Page page2 = Page.deserialize("tables/" + arrSQLTerms[0]._strTableName + "/" + page + ".class");
+			if (arrSQLTerms.length == 1) {
+				if (arrSQLTerms[0]._strTableName != null && arrSQLTerms[0]._strColumnName == null
+						&& arrSQLTerms[0]._strOperator == null && arrSQLTerms[0]._objValue == null) {
+					if (metadata.checkTableName(arrSQLTerms[0]._strTableName)) {
+						Table table = Table.deserialize("tables/" + arrSQLTerms[0]._strTableName + "/"
+								+ arrSQLTerms[0]._strTableName + ".class");
+						Vector<String> pages = table.getPageVector();
+						HashSet<Tuple> hstup = new HashSet<>();
+						for (String page : pages) {
+							Page page2 = Page
+									.deserialize("tables/" + arrSQLTerms[0]._strTableName + "/" + page + ".class");
 							hstup.addAll(page2.allTup());
 						}
 						return hstup.iterator();
-					}
-					else{
+					} else {
 						throw new DBAppException("Table doesn't exist");
 					}
 				}
@@ -1283,7 +1334,7 @@ public class DBApp {
 			checkoperators.add("<");
 			boolean indexhelp2 = false;
 			boolean indexhelp3 = false;
-			int ind =0;
+			int ind = 0;
 			for (int i = 0; i < arrSQLTerms.length; i++) {
 				if (arrSQLTerms[i]._strTableName != null && metadata.checkTableName(arrSQLTerms[i]._strTableName)
 						&& arrSQLTerms[0]._strTableName.equals(arrSQLTerms[i]._strTableName)) {
@@ -1297,12 +1348,12 @@ public class DBApp {
 									.equals("null") && (!arrSQLTerms[i]._strOperator.equals("!="))) {
 								indexhelp2 = true;
 							}
-							
+
 							if (metadata.isClusteringKey(arrSQLTerms[i]._strTableName, arrSQLTerms[i]._strColumnName)
-								 && (!arrSQLTerms[i]._strOperator.equals("!="))) {
-									System.out.println(i);
-									indexhelp3 = true;
-								ind=i;
+									&& (!arrSQLTerms[i]._strOperator.equals("!="))) {
+								System.out.println(i);
+								indexhelp3 = true;
+								ind = i;
 							}
 							if (arrSQLTerms[i]._strOperator == null
 									|| !strType.equals(arrSQLTerms[i]._objValue.getClass().getName())) {
@@ -1330,7 +1381,7 @@ public class DBApp {
 			// el hashes at end of if statements are stand by
 			if (strarrOperators.length == 0) {
 				HashSet<Tuple> tut = getTuple(arrSQLTerms[0]);
-				
+
 				return tut.iterator();
 			}
 			if (indexhelp && indexhelp2) {
@@ -1350,7 +1401,7 @@ public class DBApp {
 						indexsql.add(arrSQLTerms[i]);
 					}
 				}
-				
+
 				HashSet<Tuple> hmtup = new HashSet<>();
 				hmtup = pagestotuples(hmpage, indexsql);
 				for (int i = 0; i < arrSQLTerms.length; i++) {
@@ -1361,12 +1412,12 @@ public class DBApp {
 				}
 				return hmtup.iterator();
 			}
-			if(indexhelp&&indexhelp3){
+			if (indexhelp && indexhelp3) {
 				System.out.println("cluster ya bsha");
 				HashSet<Tuple> hstup = getTuple(arrSQLTerms[ind]);
-				for(int i=0;i<arrSQLTerms.length;i++){
-					if(i!=ind){
-						hstup=and1bp(hstup, arrSQLTerms[i]);
+				for (int i = 0; i < arrSQLTerms.length; i++) {
+					if (i != ind) {
+						hstup = and1bp(hstup, arrSQLTerms[i]);
 					}
 				}
 				return hstup.iterator();
@@ -1394,14 +1445,14 @@ public class DBApp {
 			while (!stack2.isEmpty()) {
 				vec.add(stack2.pop());
 			}
-			
+
 			for (int i = 0; i < vec.size(); i++) {
 				if (vec.get(i) instanceof SQLTerm) {
 					stack.push((SQLTerm) vec.get(i));
 				} else {
 					HashSet<Tuple> tm = null;
 					HashSet<Tuple> tm2 = null;
-					
+
 					if (stack.peek() instanceof SQLTerm) {
 						tm = getTuple((SQLTerm) stack.pop());
 						if (stack.peek() instanceof SQLTerm) {
@@ -1423,7 +1474,7 @@ public class DBApp {
 					} else if (((String) vec.get(i)).toLowerCase().equals("or")) {
 						stack.add(or2hs(tm, tm2));
 					} else {
-						
+
 						stack.add(xor2hs(tm, tm2));
 					}
 
@@ -1437,18 +1488,20 @@ public class DBApp {
 		}
 	}
 
-	
-
 	/**
-	 * The function `and2hs` takes two HashSet inputs and returns a new HashSet containing elements that
+	 * The function `and2hs` takes two HashSet inputs and returns a new HashSet
+	 * containing elements that
 	 * are common to both input HashSets.
 	 * 
 	 * @param hs1 A HashSet containing elements of type T.
-	 * @param hs2 The `hs2` parameter in the `and2hs` method represents a `HashSet` containing elements of
-	 * type `T`. This method takes two `HashSet` objects (`hs1` and `hs2`) as input and returns a new
-	 * `HashSet` containing the intersection of elements present in both
-	 * @return The method `and2hs` returns a `HashSet` containing the elements that are common between the
-	 * two input `HashSet` objects `hs1` and `hs2`.
+	 * @param hs2 The `hs2` parameter in the `and2hs` method represents a `HashSet`
+	 *            containing elements of
+	 *            type `T`. This method takes two `HashSet` objects (`hs1` and
+	 *            `hs2`) as input and returns a new
+	 *            `HashSet` containing the intersection of elements present in both
+	 * @return The method `and2hs` returns a `HashSet` containing the elements that
+	 *         are common between the
+	 *         two input `HashSet` objects `hs1` and `hs2`.
 	 */
 	private static <T> HashSet<T> and2hs(HashSet<T> hs1, HashSet<T> hs2) {
 
@@ -1469,14 +1522,18 @@ public class DBApp {
 	}
 
 	/**
-	 * The function `or2hs` takes two HashSet objects, combines them into one HashSet, and returns the
+	 * The function `or2hs` takes two HashSet objects, combines them into one
+	 * HashSet, and returns the
 	 * combined HashSet.
 	 * 
 	 * @param hs1 A HashSet of Tuple objects.
-	 * @param hs2 The `or2hs` method takes two HashSet objects of type Tuple as parameters: hs1 and hs2.
-	 * The method combines the elements of hs1 and hs2 into hs1 and returns the updated hs1 HashSet.
-	 * @return The method `or2hs` returns a `HashSet` that contains the union of the elements from both
-	 * input `HashSet` objects `hs1` and `hs2`.
+	 * @param hs2 The `or2hs` method takes two HashSet objects of type Tuple as
+	 *            parameters: hs1 and hs2.
+	 *            The method combines the elements of hs1 and hs2 into hs1 and
+	 *            returns the updated hs1 HashSet.
+	 * @return The method `or2hs` returns a `HashSet` that contains the union of the
+	 *         elements from both
+	 *         input `HashSet` objects `hs1` and `hs2`.
 	 */
 	private static HashSet<Tuple> or2hs(HashSet<Tuple> hs1, HashSet<Tuple> hs2) {
 
@@ -1491,15 +1548,19 @@ public class DBApp {
 	}
 
 	/**
-	 * The function `xor2hs` takes two HashSet of Tuple objects, performs an XOR operation between them,
+	 * The function `xor2hs` takes two HashSet of Tuple objects, performs an XOR
+	 * operation between them,
 	 * and returns the resulting HashSet.
 	 * 
-	 * @param hs1 `hs1` and `hs2` are both HashSet collections containing Tuple objects. The method
-	 * `xor2hs` takes these two HashSet collections as input parameters and performs an XOR operation on
-	 * them.
+	 * @param hs1 `hs1` and `hs2` are both HashSet collections containing Tuple
+	 *            objects. The method
+	 *            `xor2hs` takes these two HashSet collections as input parameters
+	 *            and performs an XOR operation on
+	 *            them.
 	 * @param hs2 The `hs2` parameter is a HashSet of Tuple objects.
-	 * @return The method `xor2hs` is returning a `HashSet` containing the result of performing an XOR
-	 * operation on the two input `HashSet` objects `hs1` and `hs2`.
+	 * @return The method `xor2hs` is returning a `HashSet` containing the result of
+	 *         performing an XOR
+	 *         operation on the two input `HashSet` objects `hs1` and `hs2`.
 	 */
 	private static HashSet<Tuple> xor2hs(HashSet<Tuple> hs1, HashSet<Tuple> hs2) {
 
@@ -1520,17 +1581,25 @@ public class DBApp {
 	}
 
 	/**
-	 * The function `and1bp` filters a HashSet of tuples based on a given SQLTerm condition.
+	 * The function `and1bp` filters a HashSet of tuples based on a given SQLTerm
+	 * condition.
 	 * 
-	 * @param hs1 The `hs1` parameter in the `and1bp` method is a HashSet of Tuple objects. Each Tuple
-	 * object represents a row in a database table, with columns and their corresponding values. The
-	 * method is designed to filter out tuples from `hs1` based on a given SQLTerm condition.
-	 * @param sql The `sql` parameter in the `and1bp` method represents a SQL term that includes the
-	 * column name, comparison operator, and value to be used for filtering the tuples in the `HashSet`.
-	 * The method applies the specified comparison operator to each tuple in the `HashSet` based on the
-	 * column value
-	 * @return The method `and1bp` is returning the modified `HashSet<Tuple> hs1` after removing elements
-	 * that do not satisfy the given SQLTerm condition.
+	 * @param hs1 The `hs1` parameter in the `and1bp` method is a HashSet of Tuple
+	 *            objects. Each Tuple
+	 *            object represents a row in a database table, with columns and
+	 *            their corresponding values. The
+	 *            method is designed to filter out tuples from `hs1` based on a
+	 *            given SQLTerm condition.
+	 * @param sql The `sql` parameter in the `and1bp` method represents a SQL term
+	 *            that includes the
+	 *            column name, comparison operator, and value to be used for
+	 *            filtering the tuples in the `HashSet`.
+	 *            The method applies the specified comparison operator to each tuple
+	 *            in the `HashSet` based on the
+	 *            column value
+	 * @return The method `and1bp` is returning the modified `HashSet<Tuple> hs1`
+	 *         after removing elements
+	 *         that do not satisfy the given SQLTerm condition.
 	 */
 	private static HashSet<Tuple> and1bp(HashSet<Tuple> hs1, SQLTerm sql) throws DBAppException {
 		HashSet<Tuple> temp = new HashSet<>();
@@ -1646,13 +1715,18 @@ public class DBApp {
 	}
 
 	/**
-	 * The function `pagestotuples` takes a HashSet of page names and a Vector of SQLTerms, retrieves tuples
-	 * from corresponding pages, applies SQLTerms filtering, and returns a HashSet of tuples.
+	 * The function `pagestotuples` takes a HashSet of page names and a Vector of
+	 * SQLTerms, retrieves tuples
+	 * from corresponding pages, applies SQLTerms filtering, and returns a HashSet
+	 * of tuples.
 	 * 
 	 * @param hs1 The `hs1` parameter is a HashSet of page names values.
-	 * @param vec The `vec` parameter is a Vector of SQLTerm objects. Each SQLTerm object
-	 * likely represents a condition that needs to be applied to filter the tuples in the HashSet of
-	 * page names `hs1`. The method `pagestotuples` processes each page represented by the page names in `hs1`
+	 * @param vec The `vec` parameter is a Vector of SQLTerm objects. Each SQLTerm
+	 *            object
+	 *            likely represents a condition that needs to be applied to filter
+	 *            the tuples in the HashSet of
+	 *            page names `hs1`. The method `pagestotuples` processes each page
+	 *            represented by the page names in `hs1`
 	 * @return The method `pagestotuples` returns a `HashSet` of `Tuple` objects.
 	 */
 	private static HashSet<Tuple> pagestotuples(HashSet<String> hs1, Vector<SQLTerm> vec) throws DBAppException {
@@ -1673,12 +1747,15 @@ public class DBApp {
 	}
 
 	/**
-	 * The function `getTuple` retrieves tuples based on the specified SQL term and operator, utilizing
+	 * The function `getTuple` retrieves tuples based on the specified SQL term and
+	 * operator, utilizing
 	 * indexing if available.
 	 * 
-	 * @param sql The `getTuple` method you provided handles different SQL terms to retrieve
-	 * tuples from a table based on the specified conditions. The method checks the operator in the SQL
-	 * term and performs different actions accordingly.
+	 * @param sql The `getTuple` method you provided handles different SQL terms to
+	 *            retrieve
+	 *            tuples from a table based on the specified conditions. The method
+	 *            checks the operator in the SQL
+	 *            term and performs different actions accordingly.
 	 * @return A HashSet of Tuple objects is being returned.
 	 */
 	private HashSet<Tuple> getTuple(SQLTerm sql) throws ClassNotFoundException, IOException, DBAppException {
@@ -1850,15 +1927,21 @@ public class DBApp {
 	}
 
 	/**
-	 * The function `getPage` retrieves records from a B+ tree index based on a given SQL term.
+	 * The function `getPage` retrieves records from a B+ tree index based on a
+	 * given SQL term.
 	 * 
-	 * @param sql The `getPage` method takes an `SQLTerm` object as a parameter. The `SQLTerm` class
-	 * represents a single SQL condition in a query, containing information such as the table name,
-	 * column name, comparison operator, and comparison value.
-	 * @return The method `getPage` is returning a `HashSet<String>` containing the page names retrieved based
-	 * on the SQLTerm provided. The method performs different operations based on the comparison operator
-	 * specified in the SQLTerm and populates the HashSet with the corresponding page names from the BPlusTree
-	 * index.
+	 * @param sql The `getPage` method takes an `SQLTerm` object as a parameter. The
+	 *            `SQLTerm` class
+	 *            represents a single SQL condition in a query, containing
+	 *            information such as the table name,
+	 *            column name, comparison operator, and comparison value.
+	 * @return The method `getPage` is returning a `HashSet<String>` containing the
+	 *         page names retrieved based
+	 *         on the SQLTerm provided. The method performs different operations
+	 *         based on the comparison operator
+	 *         specified in the SQLTerm and populates the HashSet with the
+	 *         corresponding page names from the BPlusTree
+	 *         index.
 	 */
 	private HashSet<String> getPage(SQLTerm sql) throws ClassNotFoundException, IOException, DBAppException {
 		HashSet<String> hstup = new HashSet<>();
@@ -1924,14 +2007,19 @@ public class DBApp {
 	}
 
 	/**
-	 * The function `precedence` returns the precedence level of a logical operator in Java.
+	 * The function `precedence` returns the precedence level of a logical operator
+	 * in Java.
 	 * 
-	 * @param operator The `precedence` method takes a string `operator` as a parameter and returns an
-	 * integer value based on the precedence of the operator. The method uses a switch statement to
-	 * determine the precedence value for the given operator.
-	 * @return The `precedence` method returns an integer value representing the precedence of the given
-	 * operator. The method uses a switch statement to determine the precedence based on the operator
-	 * provided as a parameter.
+	 * @param operator The `precedence` method takes a string `operator` as a
+	 *                 parameter and returns an
+	 *                 integer value based on the precedence of the operator. The
+	 *                 method uses a switch statement to
+	 *                 determine the precedence value for the given operator.
+	 * @return The `precedence` method returns an integer value representing the
+	 *         precedence of the given
+	 *         operator. The method uses a switch statement to determine the
+	 *         precedence based on the operator
+	 *         provided as a parameter.
 	 */
 	private static int precedence(String operator) {
 		switch (operator) {
@@ -1947,18 +2035,20 @@ public class DBApp {
 		}
 	}
 
-	
 	/**
-	 * The `parseSQL` function writes the contents of a `StringBuffer` to a file, calls another method to
+	 * The `parseSQL` function writes the contents of a `StringBuffer` to a file,
+	 * calls another method to
 	 * process the file, and returns an `Iterator` from the result.
 	 * 
-	 * @param strbufSQL The `strbufSQL` parameter is a `StringBuffer` object that contains the SQL query
-	 * to be parsed.
-	 * @return The `parseSQL` method is returning an Iterator object. The Iterator is obtained from the
-	 * `Main` class, specifically from the static `iterator` field of the `Main` class.
+	 * @param strbufSQL The `strbufSQL` parameter is a `StringBuffer` object that
+	 *                  contains the SQL query
+	 *                  to be parsed.
+	 * @return The `parseSQL` method is returning an Iterator object. The Iterator
+	 *         is obtained from the
+	 *         `Main` class, specifically from the static `iterator` field of the
+	 *         `Main` class.
 	 */
-	public Iterator parseSQL( StringBuffer strbufSQL ) throws
-	DBAppException, IOException {
+	public Iterator parseSQL(StringBuffer strbufSQL) throws DBAppException, IOException {
 		// below method returns Iterator with result set if passed
 		// strbufSQL is a select, otherwise returns null.
 		String filePath = "test.txt";
@@ -1972,11 +2062,10 @@ public class DBApp {
 		bufferedWriter.close();
 
 		main2 obj = new main2();
-		obj.main(new String[]{});
+		obj.main(new String[] {});
 
-		//		Iterator iterator = Main.getIterator();
+		// Iterator iterator = Main.getIterator();
 		return Main.iterator;
-
 
 	}
 
@@ -2038,61 +2127,22 @@ public class DBApp {
 		try {
 			// cleanUp();
 			DBApp dbApp = new DBApp();
-            dbApp.init();
 
-			String strTableName = "Student";
+			dbApp.init();
 
-            Hashtable<String, String> htblColNameType = new Hashtable<String, String>();
+			Scanner sc = new Scanner(System.in);
+			String s= sc.nextLine();
+			StringBuffer sb = new StringBuffer();
+			sb.append(s);
 
-            htblColNameType.put("id", "java.lang.Integer");
-
-            htblColNameType.put("name", "java.lang.String");
-
-            htblColNameType.put("gpa", "java.lang.Double");
-
-            dbApp.createTable(strTableName, "id", htblColNameType);
-
-            // insert n rows
-
-            for (int i = 0; i < 20; i++) {
-                Hashtable<String, Object> htblColNameValue = new Hashtable<String, Object>();
-                htblColNameValue.put("id", i);
-                htblColNameValue.put("name", "Student" + i);
-                htblColNameValue.put("gpa", 3.0 + i);
-                dbApp.insertIntoTable(strTableName, htblColNameValue);
-            }
-			
-			SQLTerm [] arrSQLTerms = new SQLTerm[2];
-            String []strarrOperators = new String[1];
-
-            arrSQLTerms[0] = new SQLTerm();
-            arrSQLTerms[0]._strTableName = "Student";
-            arrSQLTerms[0]._strColumnName = "id";
-            arrSQLTerms[0]._strOperator = "!=";
-            arrSQLTerms[0]._objValue = 10;
-
-            strarrOperators[0] = "AND";
-
-            arrSQLTerms[1] = new SQLTerm();
-            arrSQLTerms[1]._strTableName = "Student";
-            arrSQLTerms[1]._strColumnName = "name";
-            arrSQLTerms[1]._strOperator = ">";
-            arrSQLTerms[1]._objValue = "Student1";
-			Iterator iterator = dbApp.selectFromTable(arrSQLTerms, strarrOperators); // Select * from Student where id < 10 AND
-                                                                            // id > 5;
-
-            while (iterator.hasNext()) {
-                Tuple tuple = (Tuple) iterator.next();
-                System.out.println(tuple);
-            }
+			Iterator i = dbApp.parseSQL(sb);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 
-		}finally{
-			cleanUp();
+		} finally {
+			// cleanUp();
 		}
 
-		
 	}
 }
